@@ -9,9 +9,12 @@
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
-        <module>database</module>
         <module>entity</module>
-        <module>dao-api</module>
+        <module>dao</module>
+        <module>service-api</module>
+        <module>service</module>
+        <module>rest-app</module>
+        <module>db-config</module>
     </modules>
 
     <properties>
@@ -35,13 +38,36 @@
         <dependencies>
             <dependency>
                 <groupId>org.foxrider</groupId>
-                <artifactId>database</artifactId>
+                <artifactId>entity</artifactId>
                 <version>1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.foxrider</groupId>
-                <artifactId>entity</artifactId>
+                <artifactId>db-config</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.foxrider</groupId>
+                <artifactId>dao</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.foxrider</groupId>
+                <artifactId>service-api</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.foxrider</groupId>
+                <artifactId>service</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.foxrider</groupId>
+                <artifactId>rest-app</artifactId>
                 <version>1.0</version>
             </dependency>
 
@@ -59,10 +85,6 @@
                 <type>pom</type>
                 <version>2.4.4</version>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-jpa</artifactId>
             </dependency>
 
 

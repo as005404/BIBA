@@ -1,19 +1,17 @@
-package com.foxrider;
+package com.foxrider.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "SHIFT")
 public class Shift {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SHIFT_ID")
-    Integer shiftId;
+    private Integer shiftId;
     @Column(name = "SHIFT_NAME")
-    String shiftName;
+    private String shiftName;
 
     public Shift() {
     }
