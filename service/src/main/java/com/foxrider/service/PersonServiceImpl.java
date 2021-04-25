@@ -1,12 +1,12 @@
 package com.foxrider.service;
 
 import com.foxrider.dao.PersonRepository;
-import com.foxrider.dao.exeption.EntityNotFoundException;
 import com.foxrider.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 

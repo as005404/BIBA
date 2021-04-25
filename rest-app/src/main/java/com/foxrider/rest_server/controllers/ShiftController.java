@@ -1,6 +1,5 @@
 package com.foxrider.rest_server.controllers;
 
-import com.foxrider.dao.exeption.EntityNotFoundException;
 import com.foxrider.entity.Shift;
 import com.foxrider.service.ShiftService;
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController

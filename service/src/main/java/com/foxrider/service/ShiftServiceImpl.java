@@ -1,12 +1,12 @@
 package com.foxrider.service;
 
 import com.foxrider.dao.ShiftRepository;
-import com.foxrider.dao.exeption.EntityNotFoundException;
 import com.foxrider.entity.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
