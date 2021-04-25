@@ -1,7 +1,12 @@
 package com.foxrider.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "ACCESS")
@@ -10,11 +15,17 @@ public class Access {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCESS_ID")
     private Integer accessId;
+
     @Column(name = "ACCESS_NAME")
     private String accessName;
 
+    @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
+    private List<Person> users;
+
     public Access() {
     }
+
 
     public Access(String accessName) {
         this.accessName = accessName;
@@ -36,17 +47,12 @@ public class Access {
         this.accessName = accessName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Access access = (Access) o;
-        return Objects.equals(accessId, access.accessId) && Objects.equals(accessName, access.accessName);
+    public List<Person> getUsers() {
+        return users;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(accessId, accessName);
+    public void setUsers(List<Person> users) {
+        this.users = users;
     }
 
     @Override
@@ -54,6 +60,7 @@ public class Access {
         return "Access{" +
                 "accessId=" + accessId +
                 ", accessName='" + accessName + '\'' +
+                ", users=" + users +
                 '}';
     }
 }

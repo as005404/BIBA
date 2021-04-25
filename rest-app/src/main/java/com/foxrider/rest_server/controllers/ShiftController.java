@@ -52,7 +52,7 @@ public class ShiftController {
 
     @DeleteMapping(value = "/shifts/{id}")
     ResponseEntity<Object> deleteShift(Model model, @PathVariable Integer id) {
-        LOG.debug("createShift() {}", id);
+        LOG.debug("deleteShift() {}", id);
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

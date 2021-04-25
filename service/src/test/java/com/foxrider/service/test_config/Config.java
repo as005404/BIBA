@@ -1,5 +1,7 @@
 package com.foxrider.service.test_config;
 
+import com.foxrider.service.PersonService;
+import com.foxrider.service.PersonServiceImpl;
 import com.foxrider.service.ShiftService;
 import com.foxrider.service.ShiftServiceImpl;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,6 +17,11 @@ public class Config {
     @Bean
     ShiftService shiftService() {
         return new ShiftServiceImpl();
+    }
+
+    @Bean
+    PersonService personService(){
+        return new PersonServiceImpl();
     }
 
 }
