@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     @Autowired
     PersonRepository repository;
@@ -40,6 +40,6 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public void delete(Integer personId) {
         repository.delete(findById(personId)
-            .orElseThrow(() -> new EntityNotFoundException("Person entity not found")));
+                .orElseThrow(() -> new EntityNotFoundException("Person entity not found")));
     }
 }

@@ -1,7 +1,6 @@
 package com.foxrider.service;
 
 import com.foxrider.entity.Person;
-import com.foxrider.entity.Shift;
 
 import java.util.List;
 import java.util.Optional;

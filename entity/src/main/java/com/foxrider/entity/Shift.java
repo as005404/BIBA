@@ -10,8 +10,13 @@ public class Shift {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SHIFT_ID")
     private Integer shiftId;
+
     @Column(name = "SHIFT_NAME")
     private String shiftName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SHIFT_ID", nullable = false, insertable = false, updatable = false)
+    private ValueOfSensors value;
 
     public Shift() {
     }
@@ -36,24 +41,24 @@ public class Shift {
         this.shiftName = shiftName;
     }
 
+    public ValueOfSensors getValue() {
+        return value;
+    }
+
+    public void setValue(ValueOfSensors value) {
+        this.value = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shift shift = (Shift) o;
-        return Objects.equals(shiftId, shift.shiftId) && Objects.equals(shiftName, shift.shiftName);
+        return Objects.equals(shiftId, shift.shiftId) && Objects.equals(shiftName, shift.shiftName) && Objects.equals(value, shift.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shiftId, shiftName);
-    }
-
-    @Override
-    public String toString() {
-        return "Shift{" +
-                "shiftId=" + shiftId +
-                ", shiftName='" + shiftName + '\'' +
-                '}';
+        return Objects.hash(shiftId, shiftName, value);
     }
 }

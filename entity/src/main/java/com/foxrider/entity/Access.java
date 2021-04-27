@@ -1,12 +1,9 @@
 package com.foxrider.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "ACCESS")

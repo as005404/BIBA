@@ -3,6 +3,7 @@ package com.foxrider.service;
 import com.foxrider.db.DataSourceConfigurer;
 import com.foxrider.entity.Shift;
 import com.foxrider.service.test_config.Config;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @DataJpaTest
 @ContextConfiguration(classes = {Config.class, DataSourceConfigurer.class})
 @AutoConfigureTestDatabase(replace = NONE)
+@Disabled
 class ShiftServiceImplITest {
 
     private static final Logger LOG = LoggerFactory.getLogger(ShiftServiceImplITest.class);

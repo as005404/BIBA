@@ -1,7 +1,6 @@
 package com.foxrider.entity;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,15 +29,20 @@ public class Person {
     )
     private Set<Access> roles;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID", nullable = false, insertable = false, updatable = false)
+    private ValueOfSensors value;
+
 
     public Person() {
     }
 
-    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles) {
+    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles, ValueOfSensors value) {
         this.userEmail = userEmail;
         this.userPasswordHash = userPasswordHash;
         this.userSalt = userSalt;
         this.roles = roles;
+        this.value = value;
     }
 
     public Integer getUserId() {
@@ -81,16 +85,24 @@ public class Person {
         this.roles = roles;
     }
 
+    public ValueOfSensors getValue() {
+        return value;
+    }
+
+    public void setValue(ValueOfSensors value) {
+        this.value = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(userId, person.userId) && Objects.equals(userEmail, person.userEmail) && Objects.equals(userPasswordHash, person.userPasswordHash) && Objects.equals(userSalt, person.userSalt) && Objects.equals(roles, person.roles);
+        return Objects.equals(userId, person.userId) && Objects.equals(userEmail, person.userEmail) && Objects.equals(userPasswordHash, person.userPasswordHash) && Objects.equals(userSalt, person.userSalt) && Objects.equals(roles, person.roles) && Objects.equals(value, person.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userEmail, userPasswordHash, userSalt, roles);
+        return Objects.hash(userId, userEmail, userPasswordHash, userSalt, roles, value);
     }
 }

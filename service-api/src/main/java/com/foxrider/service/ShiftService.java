@@ -11,9 +11,9 @@ public interface ShiftService {
 
     Optional<Shift> findById(Integer shiftId);
 
-    Shift create(Shift shiftId);
+    Shift create(Shift shift);
 
-    Shift update(Shift shiftId);
+    Shift update(Shift shift);
 
     void delete(Integer shiftId);
 

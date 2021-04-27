@@ -20,7 +20,7 @@ public class Config {
     }
 
     @Bean
-    PersonService personService(){
+    PersonService personService() {
         return new PersonServiceImpl();
     }
 

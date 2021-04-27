@@ -1,9 +1,7 @@
 package com.foxrider.rest_server.controllers;
 
 import com.foxrider.entity.Person;
-import com.foxrider.entity.Shift;
 import com.foxrider.service.PersonService;
-import com.foxrider.service.ShiftService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

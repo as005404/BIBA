@@ -4,13 +4,15 @@ import com.foxrider.dao.AccessRepository;
 import com.foxrider.entity.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AccessServiceImpl implements AccessService{
+@Transactional
+public class AccessServiceImpl implements AccessService {
 
 
     AccessRepository accessRepository;
