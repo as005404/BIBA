@@ -2,7 +2,6 @@ package com.foxrider.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "VALUE_OF_SENSOR")
@@ -12,14 +11,20 @@ public class ValueOfSensors {
     @Column(name = "ID")
     private Integer id;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "value")
-    private Set<Person> people;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "value")
-    private Set<Shift> shifts;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID", nullable = false, insertable = false, updatable = false)
+    private Person person;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "value")
-    private Set<Sensor> sensors;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SHIFT_ID", nullable = false, insertable = false, updatable = false)
+    private Shift shift;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "SENSOR_ID", nullable = false, insertable = false, updatable = false)
+    private Sensor sensor;
 
     @Column(name = "VALUE")
     private Double value;
@@ -30,10 +35,10 @@ public class ValueOfSensors {
     public ValueOfSensors() {
     }
 
-    public ValueOfSensors(Set<Person> people, Set<Shift> shifts, Set<Sensor> sensors, Double value, LocalDateTime dateTime) {
-        this.people = people;
-        this.shifts = shifts;
-        this.sensors = sensors;
+    public ValueOfSensors(Person person, Shift shift, Sensor sensor, Double value, LocalDateTime dateTime) {
+        this.person = person;
+        this.shift = shift;
+        this.sensor = sensor;
         this.value = value;
         this.dateTime = dateTime;
     }
@@ -46,28 +51,28 @@ public class ValueOfSensors {
         this.id = id;
     }
 
-    public Set<Person> getPeople() {
-        return people;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPeople(Set<Person> people) {
-        this.people = people;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public Set<Shift> getShifts() {
-        return shifts;
+    public Shift getShift() {
+        return shift;
     }
 
-    public void setShifts(Set<Shift> shifts) {
-        this.shifts = shifts;
+    public void setShift(Shift shift) {
+        this.shift = shift;
     }
 
-    public Set<Sensor> getSensors() {
-        return sensors;
+    public Sensor getSensor() {
+        return sensor;
     }
 
-    public void setSensors(Set<Sensor> sensors) {
-        this.sensors = sensors;
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
     }
 
     public Double getValue() {

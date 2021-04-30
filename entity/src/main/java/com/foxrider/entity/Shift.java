@@ -1,7 +1,9 @@
 package com.foxrider.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "SHIFT")
@@ -14,11 +16,16 @@ public class Shift {
     @Column(name = "SHIFT_NAME")
     private String shiftName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "SHIFT_ID", nullable = false, insertable = false, updatable = false)
-    private ValueOfSensors value;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shift")
+    @JsonBackReference
+    private Set<ValueOfSensors> values;
 
     public Shift() {
+    }
+
+    public Shift(String shiftName, Set<ValueOfSensors> values) {
+        this.shiftName = shiftName;
+        this.values = values;
     }
 
     public Shift(String shiftName) {
@@ -41,24 +48,12 @@ public class Shift {
         this.shiftName = shiftName;
     }
 
-    public ValueOfSensors getValue() {
-        return value;
+    public Set<ValueOfSensors> getValues() {
+        return values;
     }
 
-    public void setValue(ValueOfSensors value) {
-        this.value = value;
+    public void setValues(Set<ValueOfSensors> values) {
+        this.values = values;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Shift shift = (Shift) o;
-        return Objects.equals(shiftId, shift.shiftId) && Objects.equals(shiftName, shift.shiftName) && Objects.equals(value, shift.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(shiftId, shiftName, value);
-    }
 }

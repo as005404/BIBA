@@ -1,7 +1,9 @@
 package com.foxrider.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "SENSOR")
@@ -17,18 +19,18 @@ public class Sensor {
     @Column(name = "SENSOR_UNIT")
     private String sensorUnit;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "SENSOR_ID", nullable = false, insertable = false, updatable = false)
-    private ValueOfSensors value;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sensor")
+    @JsonBackReference
+    private Set<ValueOfSensors> values;
 
     public Sensor() {
     }
 
-    public Sensor(String sensorName, String sensorDesc, String sensorUnit, ValueOfSensors value) {
+    public Sensor(String sensorName, String sensorDesc, String sensorUnit, Set<ValueOfSensors> values) {
         this.sensorName = sensorName;
         this.sensorDesc = sensorDesc;
         this.sensorUnit = sensorUnit;
-        this.value = value;
+        this.values = values;
     }
 
     public Integer getSensorId() {
@@ -63,24 +65,12 @@ public class Sensor {
         this.sensorUnit = sensorUnit;
     }
 
-    public ValueOfSensors getValue() {
-        return value;
+    public Set<ValueOfSensors> getValues() {
+        return values;
     }
 
-    public void setValue(ValueOfSensors value) {
-        this.value = value;
+    public void setValues(Set<ValueOfSensors> values) {
+        this.values = values;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sensor sensor = (Sensor) o;
-        return Objects.equals(sensorId, sensor.sensorId) && Objects.equals(sensorName, sensor.sensorName) && Objects.equals(sensorDesc, sensor.sensorDesc) && Objects.equals(sensorUnit, sensor.sensorUnit) && Objects.equals(value, sensor.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sensorId, sensorName, sensorDesc, sensorUnit, value);
-    }
 }

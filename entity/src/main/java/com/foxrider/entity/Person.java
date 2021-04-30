@@ -1,5 +1,7 @@
 package com.foxrider.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -29,15 +31,15 @@ public class Person {
     )
     private Set<Access> roles;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID", nullable = false, insertable = false, updatable = false)
-    private ValueOfSensors value;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
+    @JsonBackReference
+    private Set<ValueOfSensors> value;
 
 
     public Person() {
     }
 
-    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles, ValueOfSensors value) {
+    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles, Set<ValueOfSensors> value) {
         this.userEmail = userEmail;
         this.userPasswordHash = userPasswordHash;
         this.userSalt = userSalt;
@@ -85,11 +87,11 @@ public class Person {
         this.roles = roles;
     }
 
-    public ValueOfSensors getValue() {
+    public Set<ValueOfSensors> getValue() {
         return value;
     }
 
-    public void setValue(ValueOfSensors value) {
+    public void setValue(Set<ValueOfSensors> value) {
         this.value = value;
     }
 
