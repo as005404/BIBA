@@ -3,7 +3,6 @@ package com.foxrider.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -95,16 +94,4 @@ public class Person {
         this.value = value;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(userId, person.userId) && Objects.equals(userEmail, person.userEmail) && Objects.equals(userPasswordHash, person.userPasswordHash) && Objects.equals(userSalt, person.userSalt) && Objects.equals(roles, person.roles) && Objects.equals(value, person.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, userEmail, userPasswordHash, userSalt, roles, value);
-    }
 }

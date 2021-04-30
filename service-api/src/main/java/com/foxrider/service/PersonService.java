@@ -11,6 +11,8 @@ public interface PersonService {
 
     Optional<Person> findById(Integer personId);
 
+    Optional<Person> findByEmail(String email);
+
     Person create(Person person);
 
     Person update(Person person);

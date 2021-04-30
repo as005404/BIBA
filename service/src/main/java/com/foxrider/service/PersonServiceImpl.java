@@ -14,8 +14,12 @@ import java.util.Optional;
 @Transactional
 public class PersonServiceImpl implements PersonService {
 
+    private final PersonRepository repository;
+
     @Autowired
-    PersonRepository repository;
+    public PersonServiceImpl(PersonRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Person> findAll() {
@@ -25,6 +29,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Optional<Person> findById(Integer personId) {
         return repository.findById(personId);
+    }
+
+    @Override
+    public Optional<Person> findByEmail(String email) {
+        return repository.getPersonByUserEmail(email);
     }
 
     @Override

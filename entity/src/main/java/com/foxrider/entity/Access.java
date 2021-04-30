@@ -16,7 +16,7 @@ public class Access {
     @Column(name = "ACCESS_NAME")
     private String accessName;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Person> users;
 
