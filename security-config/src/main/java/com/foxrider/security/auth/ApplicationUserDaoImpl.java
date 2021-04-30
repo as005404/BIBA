@@ -32,7 +32,7 @@ public class ApplicationUserDaoImpl implements ApplicationUserDao {
         Person person = personOptional.get();
         return Optional.of(new ApplicationUser(
                 person.getRoles().stream()
-                        .map(x -> new SimpleGrantedAuthority("ROLE_" + x.getAccessName().toUpperCase()))
+                        .map(x -> new SimpleGrantedAuthority(x.getAccessName()))
                         .collect(Collectors.toSet()),
                 person.getUserPasswordHash(),
                 person.getUserEmail(),
