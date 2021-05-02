@@ -1,8 +1,11 @@
 package com.foxrider.service;
 
+import com.foxrider.entity.UsernameAndPassword;
+import org.springframework.http.ResponseEntity;
+
 public interface LoginAndRegisterService {
 
-    void login(String username, String password);
+    ResponseEntity<Object> login(UsernameAndPassword usernameAndPassword);
 
-    void register(String username, String password);
+    void register(UsernameAndPassword usernameAndPassword);
 }

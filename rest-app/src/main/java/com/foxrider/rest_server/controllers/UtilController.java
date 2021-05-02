@@ -14,7 +14,7 @@ public class UtilController {
 
     //TODO: If i will have time - add setting of site using role
     @GetMapping("/getRoles")
-    Set<String> getRoles(Model model){
+    Set<String> getRoles(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream()
                 .map(r -> r.getAuthority()).collect(Collectors.toSet());
