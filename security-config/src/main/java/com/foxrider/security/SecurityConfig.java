@@ -1,6 +1,10 @@
 package com.foxrider.security;
 
 import com.foxrider.security.auth.ApplicationUserService;
+import com.foxrider.security.jwt.JwtConfig;
+import com.foxrider.security.jwt.JwtSecretKey;
+import com.foxrider.security.jwt.JwtTokenVerifier;
+import com.foxrider.security.jwt.JwtUsernameAndPasswordAuthenticationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,12 +27,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ApplicationUserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtConfig config;
+    private final JwtSecretKey secretKey;
 
 
     @Autowired
-    public SecurityConfig(ApplicationUserService userService, PasswordEncoder passwordEncoder) {
+    public SecurityConfig(ApplicationUserService userService, PasswordEncoder passwordEncoder, JwtConfig config, JwtSecretKey secretKey) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.config = config;
+        this.secretKey = secretKey;
     }
 
 
@@ -35,6 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationUser(authenticationManager(), config, secretKey))
+                .addFilterAfter(new JwtTokenVerifier(secretKey), JwtUsernameAndPasswordAuthenticationUser.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*", "/swagger-ui.html/**", "/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/values/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
@@ -47,9 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
 
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+                .anyRequest().authenticated();
     }
 
     @Override
@@ -58,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public GrantedAuthoritiesMapper authoritiesMapper(){
+    public GrantedAuthoritiesMapper authoritiesMapper() {
         SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
         mapper.setConvertToUpperCase(true);
         mapper.setDefaultAuthority("USER");
