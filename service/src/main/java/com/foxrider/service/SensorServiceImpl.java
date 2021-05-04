@@ -32,6 +32,11 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
+    public Optional<Sensor> findByName(String name) {
+        return repository.getSensorBySensorName(name);
+    }
+
+    @Override
     public Sensor create(Sensor sensor) {
         return repository.save(sensor);
     }

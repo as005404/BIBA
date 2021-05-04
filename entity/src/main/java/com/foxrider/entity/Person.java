@@ -1,6 +1,6 @@
 package com.foxrider.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,20 +30,32 @@ public class Person {
     )
     private Set<Access> roles;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
-    @JsonBackReference
-    private Set<ValueOfSensors> value;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<ValueOfSensors> values;
 
 
     public Person() {
     }
 
-    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles, Set<ValueOfSensors> value) {
+    public Person(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public Person(String userEmail, String userPasswordHash, String userSalt, Set<Access> roles) {
         this.userEmail = userEmail;
         this.userPasswordHash = userPasswordHash;
         this.userSalt = userSalt;
         this.roles = roles;
-        this.value = value;
+    }
+
+    public Person(Integer userId, String userEmail, String userPasswordHash, String userSalt, Set<Access> roles, Set<ValueOfSensors> values) {
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.userPasswordHash = userPasswordHash;
+        this.userSalt = userSalt;
+        this.roles = roles;
+        this.values = values;
     }
 
     public Integer getUserId() {
@@ -86,12 +98,11 @@ public class Person {
         this.roles = roles;
     }
 
-    public Set<ValueOfSensors> getValue() {
-        return value;
+    public Set<ValueOfSensors> getValues() {
+        return values;
     }
 
-    public void setValue(Set<ValueOfSensors> value) {
-        this.value = value;
+    public void setValues(Set<ValueOfSensors> values) {
+        this.values = values;
     }
-
 }

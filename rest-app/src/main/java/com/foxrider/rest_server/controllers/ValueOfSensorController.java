@@ -1,6 +1,9 @@
 package com.foxrider.rest_server.controllers;
 
 import com.foxrider.entity.ValueOfSensors;
+import com.foxrider.service.PersonService;
+import com.foxrider.service.SensorService;
+import com.foxrider.service.ShiftService;
 import com.foxrider.service.ValueOfSensorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,42 +19,50 @@ import java.util.List;
 @RestController
 public class ValueOfSensorController {
     private final static Logger LOG = LoggerFactory.getLogger(ValueOfSensorController.class);
-    private final ValueOfSensorService service;
+    private final ValueOfSensorService valueOfSensorService;
+    private final PersonService personService;
+    private final ShiftService shiftService;
+    private final SensorService sensorService;
 
     @Autowired
-    public ValueOfSensorController(ValueOfSensorService service) {
-        this.service = service;
+    public ValueOfSensorController(ValueOfSensorService valueOfSensorService, PersonService personService, ShiftService shiftService, SensorService sensorService) {
+        this.valueOfSensorService = valueOfSensorService;
+        this.personService = personService;
+        this.shiftService = shiftService;
+        this.sensorService = sensorService;
     }
 
     @GetMapping("/values")
     List<ValueOfSensors> getValues(Model model) {
         LOG.debug("getValues()");
-        return service.findAll();
+        return valueOfSensorService.findAll();
     }
 
     @GetMapping("/values/{id}")
     ResponseEntity<Object> getValueById(Model model, @PathVariable Integer id) {
         LOG.debug("getValueById() {}", id);
-        return new ResponseEntity<Object>(service.findById(id)
+        return new ResponseEntity<Object>(valueOfSensorService.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Value by id " + id + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/values", consumes = "application/json", produces = "application/json")
-    ResponseEntity<ValueOfSensors> createValue(Model model, @RequestBody ValueOfSensors value) {
+    ResponseEntity<Object> createValue(Model model, @RequestBody ValueOfSensors value) {
         LOG.debug("createValue() {}", value);
-        return new ResponseEntity<>(service.create(value), HttpStatus.CREATED);
+        valueOfSensorService.createByIds(value);
+        return new ResponseEntity<Object>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/values", consumes = "application/json", produces = "application/json")
-    ResponseEntity<ValueOfSensors> updateValue(Model model, @RequestBody ValueOfSensors value) {
+    ResponseEntity<Object> updateValue(Model model, @RequestBody ValueOfSensors value) {
         LOG.debug("updateValue() {}", value);
-        return new ResponseEntity<>(service.update(value), HttpStatus.OK);
+        valueOfSensorService.updateByIds(value);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/values/{id}")
     ResponseEntity<Object> deleteValue(Model model, @PathVariable Integer id) {
         LOG.debug("deleteValue() {}", id);
-        service.delete(id);
+        valueOfSensorService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

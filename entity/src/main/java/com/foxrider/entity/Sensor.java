@@ -1,6 +1,6 @@
 package com.foxrider.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,11 +19,21 @@ public class Sensor {
     @Column(name = "SENSOR_UNIT")
     private String sensorUnit;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sensor")
-    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sensor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<ValueOfSensors> values;
 
     public Sensor() {
+    }
+
+    public Sensor(String sensorName) {
+        this.sensorName = sensorName;
+    }
+
+    public Sensor(String sensorName, String sensorDesc, String sensorUnit) {
+        this.sensorName = sensorName;
+        this.sensorDesc = sensorDesc;
+        this.sensorUnit = sensorUnit;
     }
 
     public Sensor(String sensorName, String sensorDesc, String sensorUnit, Set<ValueOfSensors> values) {
@@ -72,5 +82,4 @@ public class Sensor {
     public void setValues(Set<ValueOfSensors> values) {
         this.values = values;
     }
-
 }

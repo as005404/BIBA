@@ -12,7 +12,11 @@ public interface ValueOfSensorService {
 
     ValueOfSensors create(ValueOfSensors value);
 
+    void createByIds(ValueOfSensors value);
+
     ValueOfSensors update(ValueOfSensors value);
+
+    void updateByIds(ValueOfSensors value);
 
     void delete(Integer id);
 }

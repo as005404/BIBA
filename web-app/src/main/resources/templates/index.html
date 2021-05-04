@@ -32,8 +32,8 @@
                 </ul>
             </div>
 
-            <li class="nav-item dropdown navbar-dark bg-dark ">
-                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button"
+            <li th:if="not ${isCookiePresent}" class="nav-item dropdown navbar-dark bg-dark ">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownLogin" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     Sign in | Sign up
                 </a>
@@ -49,9 +49,31 @@
                     <li><a class="dropdown-item btn text-light" href="blogs.html" th:href="@{/register}" title="Sign up"
                            aria-label="Login">Sign up</a></li>
 
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
                 </ul>
+
             </li>
 
+
+            <li th:if="${isCookiePresent}" class="nav-item dropdown navbar-dark bg-dark ">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownLogout" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    Log out
+                </a>
+                <ul class="dropdown-menu navbar-dark bg-dark" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item btn text-light" href="blogs.html" th:href="@{/logout}" title="Log out"
+                           aria-label="Log out">Log out</a>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+
+            </li>
         </div>
     </nav>
 

@@ -57,4 +57,16 @@ public class AuthenticationController {
         return "redirect:/";
     }
 
+    @GetMapping("/register")
+    public String getRegisterPage(Model model) {
+        model.addAttribute("usernameAndPassword", new UsernameAndPassword());
+        return "signup";
+    }
+
+    @PostMapping("/register")
+    public String RegisterUser(Model model, UsernameAndPassword usernameAndPassword) {
+        service.register(usernameAndPassword);
+        return "redirect:/";
+    }
+
 }

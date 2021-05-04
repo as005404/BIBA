@@ -29,6 +29,11 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
     @Override
+    public Optional<Shift> findByName(String name) {
+        return repository.getShiftByShiftName(name);
+    }
+
+    @Override
     public Shift create(Shift shift) {
         return repository.save(shift);
     }

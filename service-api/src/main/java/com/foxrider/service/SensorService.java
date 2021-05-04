@@ -10,6 +10,8 @@ public interface SensorService {
 
     Optional<Sensor> findById(Integer sensorId);
 
+    Optional<Sensor> findByName(String name);
+
     Sensor create(Sensor sensor);
 
     Sensor update(Sensor sensor);

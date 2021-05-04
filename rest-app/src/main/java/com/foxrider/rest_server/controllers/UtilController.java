@@ -19,4 +19,11 @@ public class UtilController {
         return authentication.getAuthorities().stream()
                 .map(r -> r.getAuthority()).collect(Collectors.toSet());
     }
+
+    //TODO: If i will have time - add setting of site using role
+    @GetMapping("/getUsername")
+    String getUsername(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (String) authentication.getPrincipal();
+    }
 }

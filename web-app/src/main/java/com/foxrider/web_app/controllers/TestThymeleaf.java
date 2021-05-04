@@ -10,8 +10,9 @@ public class TestThymeleaf {
 
     @GetMapping(value = {"/", "/index"})
     public String getIndex(Model model,
-                           @CookieValue(value = "jwt-cookie", defaultValue = "hello") String jwtCookie) {
+                           @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie) {
         model.addAttribute("cookie", jwtCookie);
+        model.addAttribute("isCookiePresent", !jwtCookie.equalsIgnoreCase("null"));
         return "index";
     }
 

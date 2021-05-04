@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PersonController {
@@ -31,11 +32,22 @@ public class PersonController {
         return service.findAll();
     }
 
-    @GetMapping("/persons/{id}")
-    ResponseEntity<Object> getPersonById(Model model, @PathVariable Integer id) {
-        LOG.debug("getPersonById() {}", id);
-        return new ResponseEntity<Object>(service.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Person by id " + id + " not found")), HttpStatus.OK);
+//    @GetMapping("/persons/{id}")
+//    ResponseEntity<Object> getPersonById(Model model, @PathVariable Integer id) {
+//        LOG.debug("getPersonById() {}", id);
+//        return new ResponseEntity<Object>(service.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Person by id " + id + " not found")), HttpStatus.OK);
+//    }
+
+    @GetMapping("/persons/{name}")
+    ResponseEntity<Object> getPersonByName(Model model, @PathVariable String name) {
+        LOG.debug("getPersonByName() {}", name);
+
+        Person person = service.findByEmail(name).get();
+        person.setUserPasswordHash(null);
+        person.setRoles(null);
+        return new ResponseEntity<Object>(Optional.ofNullable(person)
+                .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/persons/", consumes = "application/json", produces = "application/json")

@@ -13,17 +13,17 @@ public class ValueOfSensors {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private Person person;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "SHIFT_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "SHIFT_ID", nullable = false)
     private Shift shift;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "SENSOR_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "SENSOR_ID", nullable = false)
     private Sensor sensor;
 
     @Column(name = "VALUE")

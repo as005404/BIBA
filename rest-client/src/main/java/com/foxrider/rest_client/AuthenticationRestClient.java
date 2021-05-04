@@ -32,6 +32,6 @@ public class AuthenticationRestClient implements LoginAndRegisterService {
 
     @Override
     public void register(UsernameAndPassword usernameAndPassword) {
-
+        restTemplate.postForEntity(url + "/register", usernameAndPassword, Object.class);
     }
 }

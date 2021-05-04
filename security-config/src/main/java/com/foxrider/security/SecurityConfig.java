@@ -49,16 +49,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationUser(authenticationManager(), config, secretKey))
                 .addFilterAfter(new JwtTokenVerifier(secretKey), JwtUsernameAndPasswordAuthenticationUser.class)
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*", "/swagger-ui.html/**", "/register").permitAll()
+                .antMatchers("/", "index", "/css/*", "/js/*", "/swagger-ui/**", "/register", "/api-docs/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/values/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/values/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/values/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/values/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/shifts/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
+
+                .antMatchers(HttpMethod.GET, "/persons/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
+
+                .antMatchers(HttpMethod.GET, "/sensors/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
 
                 .anyRequest().authenticated();
     }
@@ -72,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public GrantedAuthoritiesMapper authoritiesMapper() {
         SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
         mapper.setConvertToUpperCase(true);
-        mapper.setDefaultAuthority("ROLE_USER");
+//        mapper.setDefaultAuthority("ROLE_USER");
         return mapper;
     }
 

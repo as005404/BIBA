@@ -10,6 +10,8 @@ public interface AccessService {
 
     Optional<Access> findById(Integer accessId);
 
+    Optional<Access> findByName(String name);
+
     Access create(Access access);
 
     Access update(Access access);

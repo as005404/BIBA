@@ -33,11 +33,18 @@ public class SensorController {
         return all;
     }
 
-    @GetMapping("/sensors/{id}")
-    ResponseEntity<Object> getSensorById(Model model, @PathVariable Integer id) {
-        LOG.debug("getSensorById() {}", id);
-        return new ResponseEntity<Object>(service.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Sensor by id " + id + " not found")), HttpStatus.OK);
+//    @GetMapping("/sensors/{id}")
+//    ResponseEntity<Object> getSensorById(Model model, @PathVariable Integer id) {
+//        LOG.debug("getSensorById() {}", id);
+//        return new ResponseEntity<Object>(service.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Sensor by id " + id + " not found")), HttpStatus.OK);
+//    }
+
+    @GetMapping("/sensors/{name}")
+    ResponseEntity<Object> getSensorByName(Model model, @PathVariable String name) {
+        LOG.debug("getSensorByName() {}", name);
+        return new ResponseEntity<Object>(service.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/sensors", consumes = "application/json", produces = "application/json")

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,12 +35,34 @@ public class ValueServiceImpl implements ValueOfSensorService {
     }
 
     @Override
+    public void createByIds(ValueOfSensors value) {
+        repository.saveByIds(
+                value.getPerson().getUserId(),
+                value.getSensor().getSensorId(),
+                value.getShift().getShiftId(),
+                value.getValue(),
+                value.getDateTime()
+        );
+    }
+
+    @Override
     public ValueOfSensors update(ValueOfSensors value) {
         return repository.save(value);
     }
 
     @Override
+    public void updateByIds(ValueOfSensors value) {
+        repository.updateByIds(
+                value.getPerson().getUserId(),
+                value.getSensor().getSensorId(),
+                value.getShift().getShiftId(),
+                value.getValue(),
+                value.getId()
+        );
+    }
+
+    @Override
     public void delete(Integer id) {
-        repository.delete(findById(id).orElseThrow(() -> new EntityNotFoundException("ValueOfSensor entity not found")));
+        repository.deleteById(id);
     }
 }

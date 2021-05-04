@@ -1,6 +1,6 @@
 package com.foxrider.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,12 +16,13 @@ public class Shift {
     @Column(name = "SHIFT_NAME")
     private String shiftName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shift")
-    @JsonBackReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shift", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<ValueOfSensors> values;
 
     public Shift() {
     }
+
 
     public Shift(String shiftName, Set<ValueOfSensors> values) {
         this.shiftName = shiftName;

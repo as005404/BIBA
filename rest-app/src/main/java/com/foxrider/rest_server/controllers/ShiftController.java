@@ -31,11 +31,18 @@ public class ShiftController {
         return service.findAll();
     }
 
-    @GetMapping("/shifts/{id}")
-    ResponseEntity<Object> getShiftById(Model model, @PathVariable Integer id) {
-        LOG.debug("getShiftById() {}", id);
-        return new ResponseEntity<Object>(service.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Shift by id " + id + " not found")), HttpStatus.OK);
+//    @GetMapping("/shifts/{id}")
+//    ResponseEntity<Object> getShiftById(Model model, @PathVariable Integer id) {
+//        LOG.debug("getShiftById() {}", id);
+//        return new ResponseEntity<Object>(service.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Shift by id " + id + " not found")), HttpStatus.OK);
+//    }
+
+    @GetMapping("/shifts/{name}")
+    ResponseEntity<Object> getShiftByName(Model model, @PathVariable String name) {
+        LOG.debug("getShiftByName() {}", name);
+        return new ResponseEntity<Object>(service.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/shifts/", consumes = "application/json", produces = "application/json")

@@ -33,6 +33,11 @@ public class AccessServiceImpl implements AccessService {
     }
 
     @Override
+    public Optional<Access> findByName(String name) {
+        return accessRepository.getAccessByAccessName(name);
+    }
+
+    @Override
     public Access create(Access access) {
         return accessRepository.save(access);
     }
