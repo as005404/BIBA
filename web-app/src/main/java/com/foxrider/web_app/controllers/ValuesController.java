@@ -1,5 +1,6 @@
 package com.foxrider.web_app.controllers;
 
+import com.foxrider.entity.Person;
 import com.foxrider.entity.ValueOfSensors;
 import com.foxrider.rest_client.*;
 import org.slf4j.Logger;
@@ -83,7 +84,9 @@ public class ValuesController {
     public String addValue(ValueOfSensors value, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie) {
         // TODO: все это перенести в REST используя здесь имена, а там по именам искать индексы элементов а затем в секюрити конфиге сделать shift, sensor, person admin and moder only
         // TODO: moder не может давать роли
+        Person person = new Person(utilRestClient.getUsername(jwtCookie));
 
+        value.setPerson(person);
         value.setDateTime(LocalDateTime.now());
 
         valueOfSensorRestClient.create(value, jwtCookie);
