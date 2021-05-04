@@ -1,6 +1,7 @@
 package com.foxrider.service;
 
 import com.foxrider.dao.ValueOfSensorRepository;
+import com.foxrider.entity.Sensor;
 import com.foxrider.entity.ValueOfSensors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,12 @@ public class ValueServiceImpl implements ValueOfSensorService {
     public List<ValueOfSensors> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<ValueOfSensors> findAllBySensor(Sensor sensor) {
+        return repository.getAllBySensor(sensor);
+    }
+
 
     @Override
     public Optional<ValueOfSensors> findById(Integer id) {

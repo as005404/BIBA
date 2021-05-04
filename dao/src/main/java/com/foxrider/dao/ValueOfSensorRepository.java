@@ -1,5 +1,6 @@
 package com.foxrider.dao;
 
+import com.foxrider.entity.Sensor;
 import com.foxrider.entity.ValueOfSensors;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface ValueOfSensorRepository extends JpaRepository<ValueOfSensors, Integer> {
@@ -31,4 +33,6 @@ public interface ValueOfSensorRepository extends JpaRepository<ValueOfSensors, I
             value = "DELETE FROM VALUE_OF_SENSOR  WHERE ID=:id",
             nativeQuery = true)
     void deleteById(@Param("id") Integer id);
+
+    List<ValueOfSensors> getAllBySensor(Sensor sensor);
 }

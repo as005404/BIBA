@@ -71,4 +71,14 @@ public class ValueOfSensorRestClient {
 
         restTemplate.exchange(url + "/" + id, DELETE, httpEntity, Object.class);
     }
+
+    public List<ValueOfSensors> filter(String token, String sensor) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", addPrefix(token));
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(url+"/filter?sensor="+sensor, GET, httpEntity, new ParameterizedTypeReference<List<ValueOfSensors>>() {
+        }).getBody();
+    }
 }

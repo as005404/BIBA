@@ -8,12 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class ValuesController {
@@ -104,6 +102,23 @@ public class ValuesController {
 
         valueOfSensorRestClient.update(value, jwtCookie);
         return "redirect:/values";
+    }
+
+    @GetMapping(value = "/values/filter")
+    public String getPDF(Model model, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie,
+                         @RequestParam(value = "sensor", defaultValue = "") String filter) {
+        LOGGER.debug("getPDF()");
+        List<ValueOfSensors> valueOfSensorsList = null;
+        if(filter.equalsIgnoreCase("1"))
+            valueOfSensorsList = valueOfSensorRestClient.findAll(jwtCookie);
+        else
+            valueOfSensorsList = valueOfSensorRestClient.filter(jwtCookie, filter);
+
+
+        model.addAttribute("sensors", sensorRestClient.findAll(jwtCookie));
+        model.addAttribute("values", valueOfSensorsList);
+        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
+        return "values";
     }
 
 }

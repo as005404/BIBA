@@ -84,4 +84,11 @@ public class ValueOfSensorController {
         valueOfSensorService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/values/filter")
+    List<ValueOfSensors> getValues(Model model, @RequestParam("sensor") String sensor) {
+        LOG.debug("getValues()");
+        Sensor foundSensor = sensorService.findByName(sensor).get();
+        return valueOfSensorService.findAllBySensor(foundSensor);
+    }
 }

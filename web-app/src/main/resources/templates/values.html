@@ -68,13 +68,13 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <form class="d-flex" th:action="@{/filter}" method="get" th:method="@{get}">
+            <form class="d-flex" th:action="@{/values/filter}" method="get" th:method="@{get}">
                 <select class="form-select" aria-label="select Sensor" id="selectSensor" name="sensor">
                     <option selected value="1">All</option>
                     <option th:each="sensor : ${sensors}" th:text="${sensor.getSensorName()}"
                             th:value="${sensor.getSensorName()}"></option>
                 </select>
-                <button class="btn btn-dark" style="color: #FF6F00" type="submit"><strong>Filter</strong></button>
+                <button class="btn btn-dark" style="color: #FF6F00" type="submit"><strong>to&nbsp;PDF</strong></button>
             </form>
         </div>
     </nav>
