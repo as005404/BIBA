@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../resources/static/css/bootstrap.css"
+          th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../resources/static/css/style.css"
+          th:href="@{/css/style.css}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title th:text="${isEdit}? 'Shift Edit' : 'Shift Add'">Post Edit</title>
+</head>
+<body>
+
+<header>
+    <!--Верхняя панель Navbar-->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm text-light p-1">
+        <div class="container-fluid">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:method="get" href="/"
+                           th:href="@{/}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="posts.html" th:href="@{/shifts}" type="button" class="btn-close btn-close-white"
+               aria-label="Close"></a>
+
+        </div>
+
+
+    </nav>
+
+    <!-- Bar b-n table and navbar -->
+    <nav id="main-header"
+         class="py-1 mb-xxl-3` navbar navbar-light">
+        <div class="container-fluid">
+        </div>
+    </nav>
+</header>
+
+<section id="post">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="shiftAdd"
+                              th:action="@{${#httpServletRequest.servletPath}}"
+                              th:method="@{post}"
+                              th:object="${shift}"
+                              action="value.html"
+                              th:modelAttribute="postModel">
+
+                            <input id="field_valueId"
+                                   type="hidden"
+                                   th:field="*{shiftId}"/>
+
+                            <div class="mb-3">
+                                <label class="form-label"
+                                       for="shiftName">Shift Name</label>
+                                <input class="form-control"
+                                       id="shiftName"
+                                       th:field="*{shiftName}"
+                                       value=""/>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <a href="posts.html"
+                                   th:href="@{/shifts}"
+                                   th:method="@{post}"
+                                   class="btn btn-light me-1"
+                                   title="Cancel">Cancel</a>
+                                <a href="posts.html"
+                                   th:href="@{/shifts/add}"
+                                   th:onclick="@{document.forms['shiftAdd'].submit(); return false;}"
+                                   class="btn btn-primary"
+                                   title="Save shift">Save</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <hr/>
+    <p class="text-center text-black-50">&copy Anton Isachenka 2021</p>
+</footer>
+
+<script src="../../resources/static/js/bootstrap.bundle.min.js"
+        th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.foxrider.rest_client.utils.PrefixAdder.addPrefix;
-import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.*;
 
 public class ShiftRestClient {
 
@@ -36,8 +36,12 @@ public class ShiftRestClient {
         }).getBody();
     }
 
-    public Optional<Shift> findById(Integer shiftId) {
-        return Optional.empty();
+    public Optional<Shift> findById(Integer shiftId, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", addPrefix(token));
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+
+        return Optional.ofNullable(restTemplate.exchange(url + "/" + shiftId, GET, httpEntity, Shift.class).getBody());
     }
 
     public Optional<Shift> findByName(String name, String token) {
@@ -50,15 +54,27 @@ public class ShiftRestClient {
 
     }
 
-    public Shift create(Shift shift) {
-        return null;
+    public Shift create(Shift shift, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", addPrefix(token));
+        HttpEntity<Shift> httpEntity = new HttpEntity<>(shift, headers);
+
+        return restTemplate.exchange(url, POST, httpEntity, Shift.class).getBody();
     }
 
-    public Shift update(Shift shift) {
-        return null;
+    public Shift update(Shift shift, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", addPrefix(token));
+        HttpEntity<Shift> httpEntity = new HttpEntity<>(shift, headers);
+
+        return restTemplate.exchange(url, PUT, httpEntity, Shift.class).getBody();
     }
 
-    public void delete(Integer shiftId) {
+    public void delete(Integer shiftId, String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", addPrefix(token));
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
+        restTemplate.exchange(url + "/" + shiftId, DELETE, httpEntity, Shift.class);
     }
 }

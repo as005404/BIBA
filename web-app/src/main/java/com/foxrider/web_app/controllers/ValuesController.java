@@ -42,6 +42,7 @@ public class ValuesController {
             return "redirect:/login";
         model.addAttribute("sensors", sensorRestClient.findAll(jwtCookie));
         model.addAttribute("values", valueOfSensorRestClient.findAll(jwtCookie));
+        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
         return "values";
     }
 
@@ -83,7 +84,8 @@ public class ValuesController {
 
     @PostMapping(value = "values/add")
     public String addValue(ValueOfSensors value, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie) {
-        // TODO: все это перенести в REST используя здесь имена, а там по именам искать индексы элементов
+        // TODO: все это перенести в REST используя здесь имена, а там по именам искать индексы элементов а затем в секюрити конфиге сделать shift, sensor, person admin and moder only
+        // TODO: moder не может давать роли
         Person person = personRestClient.findByEmail(utilRestClient.getUsername(jwtCookie), jwtCookie).get();
         Shift shift = shiftRestClient.findByName(value.getShift().getShiftName(), jwtCookie).get();
         Sensor sensor = sensorRestClient.findByName(value.getSensor().getSensorName(), jwtCookie).get();

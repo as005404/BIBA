@@ -31,7 +31,7 @@ public class ShiftController {
         return service.findAll();
     }
 
-//    @GetMapping("/shifts/{id}")
+//    @GetMapping("/shift/{id}")
 //    ResponseEntity<Object> getShiftById(Model model, @PathVariable Integer id) {
 //        LOG.debug("getShiftById() {}", id);
 //        return new ResponseEntity<Object>(service.findById(id)
@@ -45,13 +45,13 @@ public class ShiftController {
                 .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/shifts/", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/shifts", consumes = "application/json", produces = "application/json")
     ResponseEntity<Shift> createShift(Model model, @RequestBody Shift shift) {
         LOG.debug("createShift() {}", shift);
         return new ResponseEntity<>(service.create(shift), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/shifts/", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/shifts", consumes = "application/json", produces = "application/json")
     ResponseEntity<Shift> updateShift(Model model, @RequestBody Shift shift) {
         LOG.debug("updateShift() {}", shift);
         return new ResponseEntity<>(service.update(shift), HttpStatus.OK);

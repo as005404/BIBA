@@ -43,7 +43,6 @@ public class ValueOfSensorRestClient {
 
         return Optional.ofNullable(restTemplate.exchange(url + "/" + id, GET, httpEntity, ValueOfSensors.class).getBody());
 
-//        return restTemplate.getForObject(url + "/" + id, Optional.class);
     }
 
 

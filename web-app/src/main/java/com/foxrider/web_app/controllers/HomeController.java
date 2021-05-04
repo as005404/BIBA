@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class TestThymeleaf {
+public class HomeController {
 
     @GetMapping(value = {"/", "/index"})
     public String getIndex(Model model,
