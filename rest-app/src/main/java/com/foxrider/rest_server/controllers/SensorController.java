@@ -15,8 +15,6 @@ import java.util.List;
 
 @RestController
 public class SensorController {
-
-
     private final SensorService service;
 
     private final static Logger LOG = LoggerFactory.getLogger(SensorController.class);
@@ -32,13 +30,6 @@ public class SensorController {
         List<Sensor> all = service.findAll();
         return all;
     }
-
-//    @GetMapping("/sensors/{id}")
-//    ResponseEntity<Object> getSensorById(Model model, @PathVariable Integer id) {
-//        LOG.debug("getSensorById() {}", id);
-//        return new ResponseEntity<Object>(service.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Sensor by id " + id + " not found")), HttpStatus.OK);
-//    }
 
     @GetMapping("/sensors/{name}")
     ResponseEntity<Object> getSensorByName(Model model, @PathVariable String name) {

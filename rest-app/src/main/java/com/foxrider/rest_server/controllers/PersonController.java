@@ -32,13 +32,6 @@ public class PersonController {
         return service.findAll();
     }
 
-//    @GetMapping("/persons/{id}")
-//    ResponseEntity<Object> getPersonById(Model model, @PathVariable Integer id) {
-//        LOG.debug("getPersonById() {}", id);
-//        return new ResponseEntity<Object>(service.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException("Person by id " + id + " not found")), HttpStatus.OK);
-//    }
-
     @GetMapping("/persons/{name}")
     ResponseEntity<Object> getPersonByName(Model model, @PathVariable String name) {
         LOG.debug("getPersonByName() {}", name);
