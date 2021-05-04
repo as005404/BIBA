@@ -1,5 +1,8 @@
 package com.foxrider.rest_server.controllers;
 
+import com.foxrider.entity.Person;
+import com.foxrider.entity.Sensor;
+import com.foxrider.entity.Shift;
 import com.foxrider.entity.ValueOfSensors;
 import com.foxrider.service.PersonService;
 import com.foxrider.service.SensorService;
@@ -48,6 +51,15 @@ public class ValueOfSensorController {
     @PostMapping(value = "/values", consumes = "application/json", produces = "application/json")
     ResponseEntity<Object> createValue(Model model, @RequestBody ValueOfSensors value) {
         LOG.debug("createValue() {}", value);
+
+        Person person = personService.findByEmail(value.getPerson().getUserEmail()).get();
+        Shift shift = shiftService.findByName(value.getShift().getShiftName()).get();
+        Sensor sensor = sensorService.findByName(value.getSensor().getSensorName()).get();
+
+        value.setPerson(person);
+        value.setShift(shift);
+        value.setSensor(sensor);
+
         valueOfSensorService.createByIds(value);
         return new ResponseEntity<Object>(HttpStatus.CREATED);
     }
@@ -55,6 +67,13 @@ public class ValueOfSensorController {
     @PutMapping(value = "/values", consumes = "application/json", produces = "application/json")
     ResponseEntity<Object> updateValue(Model model, @RequestBody ValueOfSensors value) {
         LOG.debug("updateValue() {}", value);
+
+        Shift shift = shiftService.findByName(value.getShift().getShiftName()).get();
+        Sensor sensor = sensorService.findByName(value.getSensor().getSensorName()).get();
+
+        value.setShift(shift);
+        value.setSensor(sensor);
+
         valueOfSensorService.updateByIds(value);
         return new ResponseEntity<>(HttpStatus.OK);
     }

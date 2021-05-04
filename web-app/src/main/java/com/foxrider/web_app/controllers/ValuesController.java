@@ -1,8 +1,5 @@
 package com.foxrider.web_app.controllers;
 
-import com.foxrider.entity.Person;
-import com.foxrider.entity.Sensor;
-import com.foxrider.entity.Shift;
 import com.foxrider.entity.ValueOfSensors;
 import com.foxrider.rest_client.*;
 import org.slf4j.Logger;
@@ -86,18 +83,10 @@ public class ValuesController {
     public String addValue(ValueOfSensors value, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie) {
         // TODO: все это перенести в REST используя здесь имена, а там по именам искать индексы элементов а затем в секюрити конфиге сделать shift, sensor, person admin and moder only
         // TODO: moder не может давать роли
-        Person person = personRestClient.findByEmail(utilRestClient.getUsername(jwtCookie), jwtCookie).get();
-        Shift shift = shiftRestClient.findByName(value.getShift().getShiftName(), jwtCookie).get();
-        Sensor sensor = sensorRestClient.findByName(value.getSensor().getSensorName(), jwtCookie).get();
-        ValueOfSensors valueOfSensors = new ValueOfSensors(
-                person,
-                shift,
-                sensor,
-                value.getValue(),
-                LocalDateTime.now()
-        );
 
-        valueOfSensorRestClient.create(valueOfSensors, jwtCookie);
+        value.setDateTime(LocalDateTime.now());
+
+        valueOfSensorRestClient.create(value, jwtCookie);
         return "redirect:/values";
     }
 
@@ -108,10 +97,8 @@ public class ValuesController {
         LOGGER.debug("editValue() {}", value);
 
         ValueOfSensors valueOfSensors = valueOfSensorRestClient.findById(id, jwtCookie).get();
-
         value.setPerson(valueOfSensors.getPerson());
-        value.setShift(shiftRestClient.findByName(value.getShift().getShiftName(), jwtCookie).get());
-        value.setSensor(sensorRestClient.findByName(value.getSensor().getSensorName(), jwtCookie).get());
+
         valueOfSensorRestClient.update(value, jwtCookie);
         return "redirect:/values";
     }
