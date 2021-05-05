@@ -3,15 +3,25 @@ package com.foxrider.web_app.controllers;
 import com.foxrider.entity.Person;
 import com.foxrider.entity.ValueOfSensors;
 import com.foxrider.rest_client.*;
+import com.foxrider.web_app.pdf.PDFMaker;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ValuesController {
@@ -22,13 +32,21 @@ public class ValuesController {
     private final UtilRestClient utilRestClient;
     private final PersonRestClient personRestClient;
 
+    @Value("${file.storage}")
+    private String FILE;
+
     @Autowired
-    public ValuesController(ValueOfSensorRestClient valueOfSensorRestClient, SensorRestClient sensorRestClient, ShiftRestClient shiftRestClient, UtilRestClient utilRestClient, PersonRestClient personRestClient) {
+    public ValuesController(ValueOfSensorRestClient valueOfSensorRestClient,
+                            SensorRestClient sensorRestClient,
+                            ShiftRestClient shiftRestClient,
+                            UtilRestClient utilRestClient,
+                            PersonRestClient personRestClient) {
         this.valueOfSensorRestClient = valueOfSensorRestClient;
         this.sensorRestClient = sensorRestClient;
         this.shiftRestClient = shiftRestClient;
         this.utilRestClient = utilRestClient;
         this.personRestClient = personRestClient;
+
     }
 
     @GetMapping("/values")
@@ -38,7 +56,7 @@ public class ValuesController {
             return "redirect:/login";
         model.addAttribute("sensors", sensorRestClient.findAll(jwtCookie));
         model.addAttribute("values", valueOfSensorRestClient.findAll(jwtCookie));
-        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", (utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN") || utilRestClient.getRoles(jwtCookie).contains("ROLE_MODER")));
         return "values";
     }
 
@@ -104,9 +122,9 @@ public class ValuesController {
         return "redirect:/values";
     }
 
-    @GetMapping(value = "/values/filter")
-    public String getPDF(Model model, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie,
-                         @RequestParam(value = "sensor", defaultValue = "") String filter) {
+    @GetMapping(value = "/values/filter", produces = MediaType.APPLICATION_PDF_VALUE)
+    public @ResponseBody byte[] getPDF(Model model, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie,
+                        @RequestParam(value = "sensor", defaultValue = "") String filter) throws IOException {
         LOGGER.debug("getPDF()");
         List<ValueOfSensors> valueOfSensorsList = null;
         if(filter.equalsIgnoreCase("1"))
@@ -114,11 +132,20 @@ public class ValuesController {
         else
             valueOfSensorsList = valueOfSensorRestClient.filter(jwtCookie, filter);
 
+        String randomFileName = UUID.randomUUID().toString();
+        String fullFileName = new StringBuilder().append(FILE).append(randomFileName).append(".pdf").toString();
 
-        model.addAttribute("sensors", sensorRestClient.findAll(jwtCookie));
-        model.addAttribute("values", valueOfSensorsList);
-        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
-        return "values";
+        ////////////////////////////////////// dodelAT'
+        PDFMaker.createPDF(valueOfSensorsList, fullFileName);
+        //////////////////////////////////////
+
+        InputStream in = Files.newInputStream(Path.of(fullFileName));
+
+
+
+        return org.apache.commons.io.IOUtils.toByteArray(in);
     }
+
+
 
 }
