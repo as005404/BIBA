@@ -54,4 +54,8 @@ public class SpringConfig {
         return new UtilRestClient(String.format("%s://%s:%d/", protocol, url, port), restTemplate());
     }
 
+    @Bean
+    AccessRestClient accessRestClient() {
+        return new AccessRestClient(String.format("%s://%s:%d/accesses", protocol, url, port), restTemplate());
+    }
 }

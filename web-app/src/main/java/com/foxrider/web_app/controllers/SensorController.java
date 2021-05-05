@@ -35,8 +35,8 @@ public class SensorController {
     public String getSensors(Model model,
                              @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie) {
         LOGGER.debug("getSensors()");
-
         model.addAttribute("sensors", sensorRestClient.findAll(jwtCookie));
+        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
         return "sensors";
     }
 

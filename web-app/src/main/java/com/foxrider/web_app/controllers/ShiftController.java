@@ -39,6 +39,7 @@ public class ShiftController {
             return "redirect:/login";
 
         model.addAttribute("shifts", shiftRestClient.findAll(jwtCookie));
+        model.addAttribute("isAdmin", utilRestClient.getRoles(jwtCookie).contains("ROLE_ADMIN"));
         return "shifts";
     }
 

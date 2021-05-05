@@ -28,21 +28,20 @@
                         <a class="nav-link" th:method="get" href="/"
                            th:href="@{/values}">Back</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:method="get" href="/"
                            th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:method="get" href="/"
+                           th:href="@{/shifts}">Shifts</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" th:method="get" href="/"
                            th:href="@{/sensors}">Sensors</a>
                     </li>
-
-                    <li class="nav-item" th:if="${isAdmin}">
-                        <a class="nav-link" th:method="get" href="/"
-                           th:href="@{/persons}">Access control</a>
-                    </li>
-
                 </ul>
             </div>
 
@@ -62,17 +61,6 @@
                     </li>
                 </ul>
             </li>
-            <!--Button Add-->
-            <form class="d-flex">
-                <a href="posts.html"
-                   th:href="@{/shifts/add}"
-                   class="btn btn-outline-light"
-                   title="Add Post">
-                    <i class="bi-plus"></i>&nbsp;<span class="d-none d-sm-inline">Add</span>
-                </a>
-            </form>
-
-
         </div>
     </nav>
 
@@ -93,26 +81,22 @@
                     <table class="table table-dark table-striped disabled">
                         <thead class="table-dark">
                         <tr>
-                            <th style="color: #FF6F00">Shift name</th>
+                            <th style="color: #FF6F00">Email</th>
+                            <th style="color: #FF6F00">Role</th>
                             <th style="color: #FF6F00"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="shift:${shifts}">
-                            <td th:text="${shift.getShiftName()}"></td>
+                        <tr th:each="person:${people}">
+                            <td th:text="${person.getEmail()}"></td>
+                            <td th:text="${person.getAccess()}"></td>
                             <td class="text-end">
                                 <a href="posts.html"
-                                   th:href="@{|/shifts/${shift.getShiftName()}|}"
+                                   th:href="@{|/persons/${person.getEmail()}|}"
                                    class="btn-sm btn-outline-secondary"
                                    title="Edit post">
                                     <i class="bi-pen"></i><span class="d-none d-md-inline">&nbsp;Edit</span></a>
-                                <a href="#" class="btn-sm btn-outline-secondary"
-                                   th:href="@{|/shifts/${shift.getShiftId()}/delete|}"
-                                   title="Delete post"><i class="bi-x"></i>
-                                    <span class="d-none d-md-inline">&nbsp;Delete</span>
-                                </a>
                             </td>
-
 
                         </tr>
                         </tbody>

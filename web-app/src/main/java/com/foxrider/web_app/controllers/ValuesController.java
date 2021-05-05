@@ -4,7 +4,6 @@ import com.foxrider.entity.Person;
 import com.foxrider.entity.ValueOfSensors;
 import com.foxrider.rest_client.*;
 import com.foxrider.web_app.pdf.PDFMaker;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -123,11 +121,12 @@ public class ValuesController {
     }
 
     @GetMapping(value = "/values/filter", produces = MediaType.APPLICATION_PDF_VALUE)
-    public @ResponseBody byte[] getPDF(Model model, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie,
-                        @RequestParam(value = "sensor", defaultValue = "") String filter) throws IOException {
+    public @ResponseBody
+    byte[] getPDF(Model model, @CookieValue(value = "jwt-cookie", defaultValue = "null") String jwtCookie,
+                  @RequestParam(value = "sensor", defaultValue = "") String filter) throws IOException {
         LOGGER.debug("getPDF()");
         List<ValueOfSensors> valueOfSensorsList = null;
-        if(filter.equalsIgnoreCase("1"))
+        if (filter.equalsIgnoreCase("1"))
             valueOfSensorsList = valueOfSensorRestClient.findAll(jwtCookie);
         else
             valueOfSensorsList = valueOfSensorRestClient.filter(jwtCookie, filter);
@@ -135,17 +134,8 @@ public class ValuesController {
         String randomFileName = UUID.randomUUID().toString();
         String fullFileName = new StringBuilder().append(FILE).append(randomFileName).append(".pdf").toString();
 
-        ////////////////////////////////////// dodelAT'
         PDFMaker.createPDF(valueOfSensorsList, fullFileName);
-        //////////////////////////////////////
-
         InputStream in = Files.newInputStream(Path.of(fullFileName));
-
-
-
         return org.apache.commons.io.IOUtils.toByteArray(in);
     }
-
-
-
 }

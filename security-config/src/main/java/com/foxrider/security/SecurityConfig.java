@@ -60,15 +60,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/shifts/**").hasAnyRole(MODER.name(), ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
-                .antMatchers(HttpMethod.POST, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/persons/**").hasAnyRole(MODER.name(), ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/persons/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/persons/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/persons/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/persons/**").hasAnyRole(ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/sensors/**").hasAnyRole(USER.name(), MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/sensors/**").hasAnyRole(MODER.name(), ADMIN.name())
+
+                .antMatchers(HttpMethod.GET, "/accesses/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/accesses/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/accesses/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/accesses/**").hasAnyRole(ADMIN.name())
 
                 .anyRequest().authenticated();
     }

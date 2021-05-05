@@ -38,13 +38,13 @@ public class AccessController {
                 .orElseThrow(() -> new EntityNotFoundException("Access by id " + id + " not found")), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/accesses/", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/accesses", consumes = "application/json", produces = "application/json")
     ResponseEntity<Access> createAccess(Model model, @RequestBody Access access) {
         LOG.debug("createAccess() {}", access);
         return new ResponseEntity<>(service.create(access), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/accesses/", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/accesses", consumes = "application/json", produces = "application/json")
     ResponseEntity<Access> updateAccess(Model model, @RequestBody Access access) {
         LOG.debug("updateAccess() {}", access);
         return new ResponseEntity<>(service.update(access), HttpStatus.OK);

@@ -38,6 +38,10 @@
                            th:href="@{/shifts}">Shifts</a>
                     </li>
 
+                    <li class="nav-item" th:if="${isAdmin}">
+                        <a class="nav-link" th:method="get" href="/"
+                           th:href="@{/persons}">Access control</a>
+                    </li>
                 </ul>
             </div>
 

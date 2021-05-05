@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../resources/static/css/bootstrap.css"
+          th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="../../resources/static/css/style.css"
+          th:href="@{/css/style.css}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title th:text="${isEdit}? 'Sensor Edit' : 'Sensor Add'">Post Edit</title>
+</head>
+<body>
+
+<header>
+    <!--Верхняя панель Navbar-->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm text-light p-1">
+        <div class="container-fluid">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:method="get" href="/"
+                           th:href="@{/}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="posts.html" th:href="@{/persons}" type="button" class="btn-close btn-close-white"
+               aria-label="Close"></a>
+
+        </div>
+
+
+    </nav>
+
+    <!-- Bar b-n table and navbar -->
+    <nav id="main-header"
+         class="py-1 mb-xxl-3` navbar navbar-light">
+        <div class="container-fluid">
+        </div>
+    </nav>
+</header>
+
+<section id="post">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="personAdd"
+                              th:action="@{${#httpServletRequest.servletPath}}"
+                              th:method="@{post}"
+                              th:object="${person}"
+                              action="value.html"
+                              th:modelAttribute="postModel">
+
+
+                            <input id="field_personPass"
+                                   type="hidden"
+                                   th:field="*{email}"/>
+
+
+                            <div class="mb-3">
+                                <label class="form-label"
+                                       for="sensorName">Email</label>
+                                <input class="form-control"
+                                       id="sensorName"
+                                       type="text" value=""
+                                       th:value="${person.email}"
+                                       readonly/>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label"
+                                       for="selectSensor">Role</label>
+                                <select th:field="*{access}" class="form-select" aria-label="select Role"
+                                        id="selectSensor">
+                                    <option selected th:value="${person.access}" th:text="${person.access}"></option>
+                                    <option th:each="role : ${Roles}" th:text="${role.getAccessName()}"
+                                            th:value="${role.getAccessName()}"></option>
+                                </select>
+                            </div>
+
+
+                            <div class="d-flex justify-content-end">
+                                <a href="posts.html"
+                                   th:href="@{/persons}"
+                                   th:method="@{post}"
+                                   class="btn btn-light me-1"
+                                   title="Cancel">Cancel</a>
+                                <!--                                   TODO: ТУТ ССЫЛКА НА ADD бляхахахахахха-->
+                                <a href="posts.html"
+                                   th:href="@{|/persons/${person.getEmail()}|}"
+                                   th:onclick="@{document.forms['personAdd'].submit(); return false;}"
+                                   class="btn btn-primary"
+                                   title="Save blog">Save</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <hr/>
+    <p class="text-center text-black-50">&copy Anton Isachenka 2021</p>
+</footer>
+
+<script src="../../resources/static/js/bootstrap.bundle.min.js"
+        th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
