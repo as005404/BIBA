@@ -29,7 +29,6 @@ public class PDFMaker {
             PdfWriter.getInstance(document, new FileOutputStream(Filename));
             document.open();
             addMetaData(document);
-            addTitlePage(document);
             addContent(document, iterable);
             return true;
         } catch (Exception e) {
@@ -59,25 +58,23 @@ public class PDFMaker {
     }
 
     private static void addContent(Document document, Iterable<ValueOfSensors> iterable) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
+        Anchor anchor = new Anchor("Table of values of washing machines", catFont);
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-        Paragraph subPara = new Paragraph("Table of values of washing machines", subFont);
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph(" "));
+
+        catPart.add(new Phrase(" "));
 
         // add a table
-        createTable(subCatPart, iterable);
+        createTable(catPart, iterable);
 
         // now add all this to the document
         document.add(catPart);
 
     }
 
-    private static void createTable(Section subCatPart, Iterable<ValueOfSensors> it)
+    private static void createTable(Chapter subCatPart, Iterable<ValueOfSensors> it)
             throws BadElementException {
         PdfPTable table = new PdfPTable(5);
 
