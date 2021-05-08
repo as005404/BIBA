@@ -3,6 +3,8 @@ package com.foxrider.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -14,10 +16,13 @@ public class Person {
     @Column(name = "USER_ID")
     private Integer userId;
 
+    @NotBlank(message = "Email is mandatory")
+    @Size(min = 2, message = "Email should be b-n 2 and 30 characters", max = 30)
     @Column(name = "USER_EMAIL")
     private String userEmail;
 
     @Column(name = "USER_PWD_HASH")
+    @Size(min = 2, message = "Password should be b-n 2 and 512 characters", max = 512)
     private String userPasswordHash;
 
     @Column(name = "USER_SALT")

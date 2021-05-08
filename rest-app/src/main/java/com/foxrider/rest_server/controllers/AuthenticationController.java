@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @Controller
@@ -28,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    ResponseEntity<Object> RegisterUser(@RequestBody UsernameAndPassword uap) {
+    ResponseEntity<Object> RegisterUser(@RequestBody @Valid UsernameAndPassword uap) {
         personService.create(new Person(
                         uap.getUsername(),
                         passwordEncoder.encode(uap.getPassword()),

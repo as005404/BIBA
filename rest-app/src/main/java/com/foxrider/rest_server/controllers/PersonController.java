@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -42,19 +43,19 @@ public class PersonController {
         LOG.debug("getPersonByName() {}", name);
 
         Person person = service.findByEmail(name).get();
-        person.setUserPasswordHash(null);
+        person.setUserPasswordHash("1124");
         return new ResponseEntity<Object>(Optional.ofNullable(person)
                 .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/persons", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Person> createPerson(Model model, @RequestBody Person person) {
+    ResponseEntity<Person> createPerson(Model model, @RequestBody @Valid Person person) {
         LOG.debug("createPerson() {}", person);
         return new ResponseEntity<>(service.create(person), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/persons", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Person> updatePerson(Model model, @RequestBody Person person) {
+    ResponseEntity<Person> updatePerson(Model model, @RequestBody @Valid Person person) {
         String userPasswordHash = service.findById(person.getUserId()).get().getUserPasswordHash();
         Access access = accessService.findByName(person.getRoles().stream().findAny().get().getAccessName()).get();
         person.setUserPasswordHash(userPasswordHash);

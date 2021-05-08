@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,17 +36,17 @@ public class ShiftController {
     ResponseEntity<Object> getShiftByName(Model model, @PathVariable String name) {
         LOG.debug("getShiftByName() {}", name);
         return new ResponseEntity<Object>(service.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
+                .orElseThrow(() -> new EntityNotFoundException("Shift by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/shifts", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Shift> createShift(Model model, @RequestBody Shift shift) {
+    ResponseEntity<Shift> createShift(Model model, @RequestBody @Valid Shift shift) {
         LOG.debug("createShift() {}", shift);
         return new ResponseEntity<>(service.create(shift), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/shifts", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Shift> updateShift(Model model, @RequestBody Shift shift) {
+    ResponseEntity<Shift> updateShift(Model model, @RequestBody @Valid Shift shift) {
         LOG.debug("updateShift() {}", shift);
         return new ResponseEntity<>(service.update(shift), HttpStatus.OK);
     }

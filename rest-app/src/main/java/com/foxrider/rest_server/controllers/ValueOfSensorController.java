@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class ValueOfSensorController {
     }
 
     @PostMapping(value = "/values", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Object> createValue(Model model, @RequestBody ValueOfSensors value) {
+    ResponseEntity<Object> createValue(Model model, @RequestBody @Valid ValueOfSensors value) {
         LOG.debug("createValue() {}", value);
 
         Person person = personService.findByEmail(value.getPerson().getUserEmail()).get();
@@ -65,7 +66,7 @@ public class ValueOfSensorController {
     }
 
     @PutMapping(value = "/values", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Object> updateValue(Model model, @RequestBody ValueOfSensors value) {
+    ResponseEntity<Object> updateValue(Model model, @RequestBody @Valid ValueOfSensors value) {
         LOG.debug("updateValue() {}", value);
 
         Shift shift = shiftService.findByName(value.getShift().getShiftName()).get();

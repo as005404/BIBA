@@ -1,5 +1,6 @@
 package com.foxrider.web_app.controllers;
 
+import com.foxrider.entity.Access;
 import com.foxrider.entity.Person;
 import com.foxrider.rest_client.AccessRestClient;
 import com.foxrider.rest_client.PersonRestClient;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -57,6 +59,7 @@ public class PersonAccessController {
                              @PathVariable("id") String id) {
 
         Person person = personRestClient.findByEmail(emailAccess.getEmail(), jwtCookie).get();
+        person.setRoles(Set.of(new Access( emailAccess.getAccess())));
         personRestClient.update(person, jwtCookie);
         return "redirect:/persons";
     }

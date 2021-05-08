@@ -3,6 +3,8 @@ package com.foxrider.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -12,11 +14,20 @@ public class Sensor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SENSOR_ID")
     private Integer sensorId;
+
     @Column(name = "SENSOR_NAME")
+    @NotBlank(message = "Sensor name is mandatory")
+    @Size(max = 30, message = "Sensor name should be b-n 1 and 30 characters")
     private String sensorName;
+
     @Column(name = "SENSOR_DESC")
+    @NotBlank(message = "Sensor description is mandatory")
+    @Size(max = 30, message = "Sensor description should be b-n 1 and 100 characters")
     private String sensorDesc;
+
     @Column(name = "SENSOR_UNIT")
+    @NotBlank(message = "Sensor unit description is mandatory")
+    @Size(max = 10, message = "Sensor unit should be b-n 1 and 10 characters")
     private String sensorUnit;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "sensor", cascade = CascadeType.ALL)

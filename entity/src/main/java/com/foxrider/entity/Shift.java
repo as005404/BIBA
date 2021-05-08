@@ -3,6 +3,8 @@ package com.foxrider.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -14,6 +16,8 @@ public class Shift {
     private Integer shiftId;
 
     @Column(name = "SHIFT_NAME")
+    @NotBlank(message = "Shift name is mandatory")
+    @Size(max = 30, message = "Shift name should be b-n 1 and 30 characters")
     private String shiftName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "shift", cascade = CascadeType.ALL)

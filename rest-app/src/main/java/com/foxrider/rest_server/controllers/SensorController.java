@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,17 +36,17 @@ public class SensorController {
     ResponseEntity<Object> getSensorByName(Model model, @PathVariable String name) {
         LOG.debug("getSensorByName() {}", name);
         return new ResponseEntity<Object>(service.findByName(name)
-                .orElseThrow(() -> new EntityNotFoundException("Person by id " + name + " not found")), HttpStatus.OK);
+                .orElseThrow(() -> new EntityNotFoundException("Sensor by id " + name + " not found")), HttpStatus.OK);
     }
 
     @PostMapping(value = "/sensors", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Sensor> createSensor(Model model, @RequestBody Sensor sensor) {
+    ResponseEntity<Sensor> createSensor(Model model, @RequestBody @Valid Sensor sensor) {
         LOG.debug("createSensor() {}", sensor);
         return new ResponseEntity<>(service.create(sensor), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/sensors", consumes = "application/json", produces = "application/json")
-    ResponseEntity<Sensor> updateSensor(Model model, @RequestBody Sensor sensor) {
+    ResponseEntity<Sensor> updateSensor(Model model, @RequestBody @Valid Sensor sensor) {
         LOG.debug("updateSensor() {}", sensor);
         return new ResponseEntity<>(service.update(sensor), HttpStatus.OK);
     }
